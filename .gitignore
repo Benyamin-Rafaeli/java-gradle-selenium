@@ -28,3 +28,6 @@ gradle-app.setting
 
 # Cache of project
 .gradletasknamecache
+
+# Selenium
+*.log
