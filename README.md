@@ -1,3 +1,12 @@
-java-gradle-selenium
+##Simple: 
+Chrome Selenium Java Github Workflows Actions
 
-bootstrap 
+### on mac:
+
+```brew install gradle```
+
+```brew cask install java```
+
+```git clone https://github.com/Benyamin-Rafaeli/java-gradle-selenium.git```
+
+![Java CI with Gradle](https://github.com/Benyamin-Rafaeli/java-gradle-selenium/workflows/Java%20CI%20with%20Gradle/badge.svg?branch=master)
