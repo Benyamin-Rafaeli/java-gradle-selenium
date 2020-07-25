@@ -5,9 +5,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.ITestResult;
+import org.testng.annotations.*;
 
 import java.time.Duration;
 import java.util.List;
@@ -19,7 +18,8 @@ public class testSuite {
     //    private final String url = "http://localhost:7080/";
     private WebDriver driver;
 
-    @BeforeClass
+    //    @BeforeClass
+    @BeforeMethod
     public void setUp() {
 //        driver = new ChromeDriver();
         WebDriverManager.chromedriver().setup();
@@ -28,8 +28,10 @@ public class testSuite {
         driver = new ChromeDriver(options);
     }
 
-    @AfterClass
-    public void tearDown() {
+    //    @AfterClass
+    @AfterMethod
+    public void tearDown(ITestResult result) {
+        System.out.println("method name:" + result.getMethod().getMethodName());
         driver.quit();
     }
 
