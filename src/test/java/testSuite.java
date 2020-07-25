@@ -16,8 +16,8 @@ import static java.util.Collections.emptyList;
 import static org.testng.Assert.*;
 
 public class testSuite {
-    //    private final String url = "http://the-internet.herokuapp.com/";
-    private final String url = "http://localhost:7080/";
+        private final String url = "http://the-internet.herokuapp.com/";
+//    private final String url = "http://localhost:7080/";
     private WebDriver driver;
 
     @BeforeClass
