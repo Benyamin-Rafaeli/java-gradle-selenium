@@ -165,7 +165,9 @@ public class testSuite {
 
     @Test
     public void userLogin() {
-        start(url + "login");
+//        start(url + "login");
+        start(url);
+        driver.findElement(By.linkText("Form Authentication")).click();
         waitUrlContains("login");
 
         driver.findElement(By.id("username")).sendKeys("tomsmith");
