@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 import java.util.List;
 
+import static java.util.Collections.emptyList;
 import static org.testng.Assert.*;
 
 public class testSuite {
@@ -165,7 +166,6 @@ public class testSuite {
 
     @Test
     public void userLogin() {
-//        start(url + "login");
         start(url);
         driver.findElement(By.linkText("Form Authentication")).click();
         waitUrlContains("login");
@@ -177,6 +177,22 @@ public class testSuite {
         System.out.println("Current URL is:" + driver.getCurrentUrl());
 
         assertTrue(driver.getCurrentUrl().contains("secure"));
+    }
+
+    @Test
+    public void disappearingElements() {
+        start(url);
+        driver.findElement(By.linkText("Disappearing Elements")).click();
+        waitUrlContains("disappearing_elements");
+
+        List<WebElement> elements;
+        elements = driver.findElements(By.linkText("About"));
+        assertTrue(elements.size() > 0);
+
+        driver.findElement(By.linkText("About")).click();
+
+        elements = driver.findElements(By.linkText("About"));
+        assertEquals(elements.size(), 0);
     }
 
     private void waitUrlContains(String part) {
