@@ -1,4 +1,3 @@
-//import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -18,17 +17,14 @@ public class testSuite {
     //    private final String url = "http://localhost:7080/";
     private WebDriver driver;
 
-    //    @BeforeClass
     @BeforeMethod
     public void setUp() {
 //        driver = new ChromeDriver();
-//        WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
         driver = new ChromeDriver(options);
     }
 
-    //    @AfterClass
     @AfterMethod
     public void tearDown(ITestResult result) {
         System.out.println("method name:" + result.getMethod().getMethodName());
@@ -220,7 +216,9 @@ public class testSuite {
         new FluentWait(driver)
                 .withTimeout(Duration.ofSeconds(5))
                 .until(ExpectedConditions.urlContains(part));
+
         assertTrue(driver.getCurrentUrl().contains(part));
+        System.out.println("Redirected URL is: " + driver.getCurrentUrl());
     }
 
     private void start(String url) {
