@@ -9,6 +9,7 @@ import org.testng.annotations.*;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static org.testng.Assert.*;
 
@@ -16,34 +17,39 @@ public class testSuite {
     private final String url = "http://the-internet.herokuapp.com/";
     //    private final String url = "http://localhost:7080/";
     private WebDriver driver;
+    private FluentWait wait;
+    public Logger log;
 
     @BeforeMethod
     public void setUp() {
-//        driver = new ChromeDriver();
+        driver = new ChromeDriver();
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
+//        options.addArguments("--headless");
         driver = new ChromeDriver(options);
+
+        driver.navigate().to(url);
+        driver.manage().window().maximize();
+        wait = new FluentWait(driver).withTimeout(Duration.ofSeconds(30));
+//        log.info("Navigate to => " + url);
     }
 
     @AfterMethod
     public void tearDown(ITestResult result) {
-        System.out.println("method name:" + result.getMethod().getMethodName());
+//        log.info("Method name => " + result.getMethod().getMethodName());
+//        System.out.println("method name:" + result.getMethod().getMethodName());
         driver.quit();
     }
 
     @Test
     public void aBTesting() {
-        start(url);
-        driver.findElement(By.linkText("A/B Testing")).click();
-        waitUrlContains("abtest");
+        clickByLinkTextAndValidateUrl("A/B Testing", "abtest");
+
 //        assertEquals(driver.findElement(By.cssSelector("h3")).getText(), "A/B Test Variation 1");
     }
 
     @Test
     public void addRemoveElements() {
-        start(url);
-        driver.findElement(By.linkText("Add/Remove Elements")).click();
-        waitUrlContains("add_remove_elements");
+        clickByLinkTextAndValidateUrl("Add/Remove Elements", "add_remove_elements");
 
         for (int i = 0; i < 5; i++) {
             driver.findElement(By.cssSelector("button")).click();
@@ -68,7 +74,7 @@ public class testSuite {
         // Updated URl -- http://admin:admin@the-internet.herokuapp.com/basic_auth
 
         driver.get("http://admin:admin@the-internet.herokuapp.com/basic_auth");
-        waitUrlContains("basic_auth");
+//        waitUrlContains("basic_auth");
 
         String actualText = driver.findElement(By.xpath("//div[@class='example']/p")).getText();
         assertEquals(actualText, "Congratulations! You must have the proper credentials.");
@@ -76,9 +82,7 @@ public class testSuite {
 
     @Test
     public void brokenImages() {
-        start(url);
-        driver.findElement(By.linkText("Broken Images")).click();
-        waitUrlContains("broken_images");
+        clickByLinkTextAndValidateUrl("Broken Images", "broken_images");
 
         for (WebElement image : driver.findElements(By.cssSelector("img"))) {
             if (image.getAttribute("naturalWidth").equals("0")) {
@@ -89,9 +93,7 @@ public class testSuite {
 
     @Test
     public void challengingDOM() {
-        start(url);
-        driver.findElement(By.linkText("Challenging DOM")).click();
-        waitUrlContains("challenging_dom");
+        clickByLinkTextAndValidateUrl("Challenging DOM", "challenging_dom");
 
         WebElement tbody = driver.findElement(By.tagName("tbody"));
 
@@ -105,9 +107,7 @@ public class testSuite {
 
     @Test
     public void checkboxes1() {
-        start(url);
-        driver.findElement(By.linkText("Checkboxes")).click();
-        waitUrlContains("checkboxes");
+        clickByLinkTextAndValidateUrl("Checkboxes", "checkboxes");
 
         List<WebElement> checkboxes = driver.findElements(By.cssSelector("input[type=\"checkbox\"]"));
 
@@ -124,9 +124,7 @@ public class testSuite {
 
     @Test
     public void checkboxes2() {
-        start(url);
-        driver.findElement(By.linkText("Checkboxes")).click();
-        waitUrlContains("checkboxes");
+        clickByLinkTextAndValidateUrl("Checkboxes", "checkboxes");
 
         WebElement checkbox = driver.findElement(By.cssSelector("form input:nth-of-type(2)"));
         assertTrue(Boolean.parseBoolean(checkbox.getAttribute("checked")));
@@ -135,9 +133,7 @@ public class testSuite {
 
     @Test
     public void checkboxes3() {
-        start(url);
-        driver.findElement(By.linkText("Checkboxes")).click();
-        waitUrlContains("checkboxes");
+        clickByLinkTextAndValidateUrl("Checkboxes", "checkboxes");
 
         WebElement checkbox = driver.findElement(By.cssSelector("form input:nth-of-type(2)"));
         assertTrue(checkbox.isSelected());
@@ -145,9 +141,7 @@ public class testSuite {
 
     @Test
     public void rightClickContextMenu() {
-        start(url);
-        driver.findElement(By.linkText("Context Menu")).click();
-        waitUrlContains("context_menu");
+        clickByLinkTextAndValidateUrl("Context Menu", "context_menu");
 
         WebElement menu = driver.findElement(By.id("hot-spot"));
 
@@ -163,9 +157,7 @@ public class testSuite {
 
     @Test(enabled = false)
     public void userLogin() {
-        start(url);
-        driver.findElement(By.linkText("Form Authentication")).click();
-        waitUrlContains("login");
+        clickByLinkTextAndValidateUrl("Form Authentication", "login");
 
         driver.findElement(By.id("username")).sendKeys("tomsmith");
         driver.findElement(By.id("password")).sendKeys("SuperSecretPassword!");
@@ -178,9 +170,7 @@ public class testSuite {
 
     @Test
     public void disappearingElements() {
-        start(url);
-        driver.findElement(By.linkText("Disappearing Elements")).click();
-        waitUrlContains("disappearing_elements");
+        clickByLinkTextAndValidateUrl("Disappearing Elements", "disappearing_elements");
 
         List<WebElement> elements;
         elements = driver.findElements(By.linkText("About"));
@@ -194,9 +184,7 @@ public class testSuite {
 
     @Test
     public void dragAndDrop() {
-        start(url);
-        driver.findElement(By.linkText("Drag and Drop")).click();
-        waitUrlContains("drag_and_drop");
+        clickByLinkTextAndValidateUrl("Drag and Drop", "drag_and_drop");
 
         assertEquals(driver.findElement(By.id("column-a")).getText(), "A");
         assertEquals(driver.findElement(By.id("column-b")).getText(), "B");
@@ -212,18 +200,20 @@ public class testSuite {
         assertEquals(driver.findElement(By.id("column-b")).getText(), "B");
     }
 
-    private void waitUrlContains(String part) {
-        new FluentWait(driver)
-                .withTimeout(Duration.ofSeconds(5))
-                .until(ExpectedConditions.urlContains(part));
+    private void clickByLinkTextAndValidateUrl(String clickOnText, String part) {
+        wait.until(ExpectedConditions.elementToBeClickable(By.linkText(clickOnText)));
+        driver.findElement(By.linkText(clickOnText)).click();
+//        log.info("Click on => " + clickOnText);
 
+        wait.until(ExpectedConditions.urlContains(part));
         assertTrue(driver.getCurrentUrl().contains(part));
-        System.out.println("Redirected URL is: " + driver.getCurrentUrl());
+//        log.info("Validate urlContains => " + part);
     }
 
-    private void start(String url) {
-        System.out.println("Current URL is: " + url);
-        driver.navigate().to(url);
-        driver.manage().window().maximize();
-    }
+//    private void start(String url) {
+//        log.info("");
+//        System.out.println("Current URL is: " + url);
+//        driver.navigate().to(url);
+//        driver.manage().window().maximize();
+//    }
 }
