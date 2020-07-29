@@ -200,6 +200,19 @@ public class testSuite {
         assertEquals(driver.findElement(By.id("column-b")).getText(), "B");
     }
 
+    @Test
+    public void Dropdown() {
+        clickByLinkTextAndValidateUrl("Dropdown", "dropdown");
+        wait.until(ExpectedConditions.textToBe(By.cssSelector("h3"), "Dropdown List"));
+
+        WebElement dropdown = driver.findElement(By.id("dropdown"));
+        dropdown.findElement(By.xpath("//option[. = 'Option 1']")).click();
+        assertEquals(dropdown.getAttribute("value"), "1");
+
+        dropdown.findElement(By.xpath("//option[. = 'Option 2']")).click();
+        assertEquals(dropdown.getAttribute("value"), "2");
+    }
+
     private void clickByLinkTextAndValidateUrl(String clickOnText, String part) {
         wait.until(ExpectedConditions.elementToBeClickable(By.linkText(clickOnText)));
         driver.findElement(By.linkText(clickOnText)).click();
