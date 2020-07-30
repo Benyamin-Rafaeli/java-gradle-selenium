@@ -2,6 +2,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.testng.ITestResult;
@@ -9,6 +10,7 @@ import org.testng.annotations.*;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.function.Function;
 import java.util.logging.Logger;
 
 import static org.testng.Assert.*;
@@ -17,7 +19,7 @@ public class testSuite {
     private final String url = "http://the-internet.herokuapp.com/";
     //    private final String url = "http://localhost:7080/";
     private WebDriver driver;
-    private FluentWait wait;
+    private FluentWait<WebDriver> wait;
     public Logger log;
 
     @BeforeMethod
@@ -29,7 +31,13 @@ public class testSuite {
 
         driver.navigate().to(url);
         driver.manage().window().maximize();
-        wait = new FluentWait(driver).withTimeout(Duration.ofSeconds(30));
+//        wait = new FluentWait(driver).withTimeout(Duration.ofSeconds(30));
+
+        wait = new FluentWait<>(driver)
+                .withTimeout(Duration.ofSeconds(10))
+                .pollingEvery(Duration.ofSeconds(1))
+                .ignoring(NoSuchElementException.class);
+
 //        log.info("Navigate to => " + url);
     }
 
@@ -217,10 +225,12 @@ public class testSuite {
     public void dynamicContent() {
         clickByLinkTextAndValidateUrl("Dynamic Content", "dynamic_content");
 
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText("click here")));
+        wait.until(ExpectedConditions.elementToBeClickable(By.linkText("click here")));
         driver.findElement(By.linkText("click here")).click();
 
-        List<WebElement> elements = driver.findElements(By.xpath("(//div[@id=content])"));
+        String myXpath = "(//div[@id='content'])";
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(myXpath)));
+        List<WebElement> elements = driver.findElements(By.xpath(myXpath));
         assertTrue(elements.size() > 0);
     }
 
