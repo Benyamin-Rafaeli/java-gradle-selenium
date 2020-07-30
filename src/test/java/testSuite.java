@@ -213,6 +213,18 @@ public class testSuite {
         assertEquals(dropdown.getAttribute("value"), "2");
     }
 
+    @Test
+    public void dynamicContent() {
+        clickByLinkTextAndValidateUrl("Dynamic Content", "dynamic_content");
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText("click here")));
+        driver.findElement(By.linkText("click here")).click();
+
+        List<WebElement> elements = driver.findElements(By.xpath("(//div[@id=content])"));
+        assertTrue(elements.size() > 0);
+    }
+
+
     private void clickByLinkTextAndValidateUrl(String clickOnText, String part) {
         wait.until(ExpectedConditions.elementToBeClickable(By.linkText(clickOnText)));
         driver.findElement(By.linkText(clickOnText)).click();
