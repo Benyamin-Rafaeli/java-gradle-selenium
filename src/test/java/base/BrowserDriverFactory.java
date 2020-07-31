@@ -18,17 +18,19 @@ public class BrowserDriverFactory {
         System.out.println("Create driver: " + browser);
 
         switch (browser) {
-            case "chrome" -> {
+            case "chrome": {
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--headless", "no-sandbox", "disable-gpu", "disable-dev-shm-usage");
                 driver.set(new ChromeDriver(options));
+                break;
             }
-            case "firefox" -> {
+            case "firefox": {
                 FirefoxOptions options = new FirefoxOptions();
                 options.addArguments("--headless", "no-sandbox", "disable-gpu", "disable-dev-shm-usage");
                 driver.set(new FirefoxDriver(options));
+                break;
             }
-            default -> {
+            default: {
                 System.out.println("Do not know how to start: " + browser + ", starting chrome.");
                 driver.set(new ChromeDriver());
             }
