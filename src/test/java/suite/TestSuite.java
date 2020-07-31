@@ -38,7 +38,7 @@ public class TestSuite extends TestUtilities {
         }
     }
 
-    @Test(enabled = false)
+    @Test
     public void basicAuth() {
         // Some of the applications that are secured with Basic Authentication.
         // If you want to access those applications first you need to pass credentials.
@@ -48,13 +48,12 @@ public class TestSuite extends TestUtilities {
         // Updated URl -- http://admin:admin@the-internet.herokuapp.com/basic_auth
 
         driver.get("http://admin:admin@the-internet.herokuapp.com/basic_auth");
-//        waitUrlContains("basic_auth");
 
         String actualText = driver.findElement(By.xpath("//div[@class='example']/p")).getText();
         assertEquals(actualText, "Congratulations! You must have the proper credentials.");
     }
 
-    @Test(enabled = false)
+    @Test
     public void brokenImages() {
         clickByLinkTextAndValidateUrl("Broken Images", "broken_images");
 
@@ -65,7 +64,7 @@ public class TestSuite extends TestUtilities {
         }
     }
 
-    @Test(enabled = false)
+    @Test
     public void challengingDOM() {
         clickByLinkTextAndValidateUrl("Challenging DOM", "challenging_dom");
 
@@ -79,7 +78,7 @@ public class TestSuite extends TestUtilities {
         }
     }
 
-    @Test(enabled = false)
+    @Test
     public void checkboxes1() {
         clickByLinkTextAndValidateUrl("Checkboxes", "checkboxes");
 
@@ -96,7 +95,7 @@ public class TestSuite extends TestUtilities {
         }
     }
 
-    @Test(enabled = false)
+    @Test
     public void checkboxes2() {
         clickByLinkTextAndValidateUrl("Checkboxes", "checkboxes");
 
@@ -105,7 +104,7 @@ public class TestSuite extends TestUtilities {
         assertNotNull(checkbox.getAttribute("checked"));
     }
 
-    @Test(enabled = false)
+    @Test
     public void checkboxes3() {
         clickByLinkTextAndValidateUrl("Checkboxes", "checkboxes");
 
@@ -113,7 +112,7 @@ public class TestSuite extends TestUtilities {
         assertTrue(checkbox.isSelected());
     }
 
-    @Test(enabled = false)
+    @Test
     public void rightClickContextMenu() {
         clickByLinkTextAndValidateUrl("Context Menu", "context_menu");
 
@@ -142,7 +141,7 @@ public class TestSuite extends TestUtilities {
         assertTrue(driver.getCurrentUrl().contains("secure"));
     }
 
-    @Test(enabled = false)
+    @Test
     public void disappearingElements() {
         clickByLinkTextAndValidateUrl("Disappearing Elements", "disappearing_elements");
 
@@ -157,7 +156,7 @@ public class TestSuite extends TestUtilities {
         assertEquals(elements.size(), 0);
     }
 
-    @Test(enabled = false)
+    @Test
     public void dragAndDrop() {
         clickByLinkTextAndValidateUrl("Drag and Drop", "drag_and_drop");
 
@@ -175,7 +174,7 @@ public class TestSuite extends TestUtilities {
         assertEquals(driver.findElement(By.id("column-b")).getText(), "B");
     }
 
-    @Test(enabled = false)
+    @Test
     public void Dropdown() {
         clickByLinkTextAndValidateUrl("Dropdown", "dropdown");
         wait.until(ExpectedConditions.textToBe(By.cssSelector("h3"), "Dropdown List"));
@@ -188,7 +187,7 @@ public class TestSuite extends TestUtilities {
         assertEquals(dropdown.getAttribute("value"), "2");
     }
 
-    @Test(enabled = false)
+    @Test
     public void dynamicContent() {
         clickByLinkTextAndValidateUrl("Dynamic Content", "dynamic_content");
 
@@ -201,7 +200,7 @@ public class TestSuite extends TestUtilities {
         assertTrue(elements.size() > 0);
     }
 
-    @Test(enabled = false)
+    @Test
     public void dynamicControls_1() {
         clickByLinkTextAndValidateUrl("Dynamic Controls", "dynamic_controls");
 
