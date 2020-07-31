@@ -181,6 +181,7 @@ public class testSuite {
         clickByLinkTextAndValidateUrl("Disappearing Elements", "disappearing_elements");
 
         List<WebElement> elements;
+
         elements = driver.findElements(By.linkText("About"));
         assertTrue(elements.size() > 0);
 
@@ -232,6 +233,26 @@ public class testSuite {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(myXpath)));
         List<WebElement> elements = driver.findElements(By.xpath(myXpath));
         assertTrue(elements.size() > 0);
+    }
+
+    @Test
+    public void dynamicControls_1() {
+        clickByLinkTextAndValidateUrl("Dynamic Controls", "dynamic_controls");
+
+        WebElement RemoveBtn = driver.findElement(By.xpath("//button[contains(.,'Remove')]"));
+        wait.until(ExpectedConditions.elementToBeClickable(RemoveBtn));
+        RemoveBtn.click();
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("loading")));
+        wait.until(ExpectedConditions.textToBe(By.id("message"), "It's gone!"));
+
+        WebElement AddBtn = driver.findElement(By.xpath("//button[contains(.,'Add')]"));
+        wait.until(ExpectedConditions.elementToBeClickable(AddBtn));
+        AddBtn.click();
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("loading")));
+        wait.until(ExpectedConditions.textToBe(By.id("message"), "It's back!"));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("checkbox")));
     }
 
 
