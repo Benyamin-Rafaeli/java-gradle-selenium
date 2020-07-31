@@ -16,13 +16,15 @@ public class BaseTest {
     protected String url = "http://the-internet.herokuapp.com/";
     protected WebDriver driver;
     protected FluentWait<WebDriver> wait;
-    protected Logger log;
+//    protected Logger log;
 
     @BeforeMethod(alwaysRun = true)
     public void setUp() {
         driver = new ChromeDriver();
         ChromeOptions options = new ChromeOptions();
-//        options.addArguments("--headless");
+        options.addArguments("--headless");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
         driver = new ChromeDriver(options);
 
         driver.navigate().to(url);
@@ -39,7 +41,7 @@ public class BaseTest {
     @AfterMethod(alwaysRun = true)
     public void tearDown(ITestResult result) {
 //        log.info("Method name => " + result.getMethod().getMethodName());
-//        System.out.println("method name:" + result.getMethod().getMethodName());
+        System.out.println("method name:" + result.getMethod().getMethodName());
         driver.quit();
     }
 
