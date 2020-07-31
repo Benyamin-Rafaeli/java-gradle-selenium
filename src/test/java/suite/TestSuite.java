@@ -1,57 +1,23 @@
-import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.testng.ITestResult;
-import org.testng.annotations.*;
+package suite;
 
-import java.time.Duration;
+import base.TestUtilities;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.annotations.Test;
+
 import java.util.List;
-import java.util.function.Function;
-import java.util.logging.Logger;
 
 import static org.testng.Assert.*;
 
-public class testSuite {
-    private final String url = "http://the-internet.herokuapp.com/";
-    //    private final String url = "http://localhost:7080/";
-    private WebDriver driver;
-    private FluentWait<WebDriver> wait;
-    public Logger log;
-
-    @BeforeMethod
-    public void setUp() {
-        driver = new ChromeDriver();
-        ChromeOptions options = new ChromeOptions();
-//        options.addArguments("--headless");
-        driver = new ChromeDriver(options);
-
-        driver.navigate().to(url);
-        driver.manage().window().maximize();
-//        wait = new FluentWait(driver).withTimeout(Duration.ofSeconds(30));
-
-        wait = new FluentWait<>(driver)
-                .withTimeout(Duration.ofSeconds(10))
-                .pollingEvery(Duration.ofSeconds(1))
-                .ignoring(NoSuchElementException.class);
-
-//        log.info("Navigate to => " + url);
-    }
-
-    @AfterMethod
-    public void tearDown(ITestResult result) {
-//        log.info("Method name => " + result.getMethod().getMethodName());
-//        System.out.println("method name:" + result.getMethod().getMethodName());
-        driver.quit();
-    }
+public class TestSuite extends TestUtilities {
 
     @Test
     public void aBTesting() {
         clickByLinkTextAndValidateUrl("A/B Testing", "abtest");
-
 //        assertEquals(driver.findElement(By.cssSelector("h3")).getText(), "A/B Test Variation 1");
     }
 
@@ -255,21 +221,4 @@ public class testSuite {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("checkbox")));
     }
 
-
-    private void clickByLinkTextAndValidateUrl(String clickOnText, String part) {
-        wait.until(ExpectedConditions.elementToBeClickable(By.linkText(clickOnText)));
-        driver.findElement(By.linkText(clickOnText)).click();
-//        log.info("Click on => " + clickOnText);
-
-        wait.until(ExpectedConditions.urlContains(part));
-        assertTrue(driver.getCurrentUrl().contains(part));
-//        log.info("Validate urlContains => " + part);
-    }
-
-//    private void start(String url) {
-//        log.info("");
-//        System.out.println("Current URL is: " + url);
-//        driver.navigate().to(url);
-//        driver.manage().window().maximize();
-//    }
 }
