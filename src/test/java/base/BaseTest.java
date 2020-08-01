@@ -26,8 +26,9 @@ public class BaseTest {
     public void setUp(@Optional("chrome") String browser, ITestContext ctx) { // firefox chrome
 
 //        Logger strLogger = Logger.getLogger(String.class);
-//        System.out.print("===========>>> " + strLogger);
+
         log = Logger.getLogger(String.class);
+        System.out.print("===========>>> " + log);
 
         BrowserDriverFactory factory = new BrowserDriverFactory(browser, log);
         driver = factory.createDriver();
@@ -45,6 +46,7 @@ public class BaseTest {
 
     @AfterMethod(alwaysRun = true)
     public void tearDown(ITestResult result) {
+        System.out.print("Close driver ===========>>> " + result.getMethod().getMethodName());
         log.info("Close driver =========>>> ");
         log.info("Method Name:" + result.getMethod().getMethodName());
         driver.quit();
