@@ -10,7 +10,7 @@ import org.testng.log4testng.Logger;
 public class BrowserDriverFactory {
     private final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     private final String browser;
-    private Logger log;
+    private final Logger log;
 
     public BrowserDriverFactory(String browser, Logger log) {
         this.browser = browser.toLowerCase();
@@ -18,8 +18,7 @@ public class BrowserDriverFactory {
     }
 
     public WebDriver createDriver() {
-//        System.out.println("Create driver: " + browser);
-        log.info("Create driver: =============>> " + browser);
+        System.out.println("Create driver => " + browser);
 
         switch (browser) {
             case "chrome": {
@@ -27,7 +26,7 @@ public class BrowserDriverFactory {
                 // --headless
                 options.addArguments("no-sandbox", "disable-gpu", "disable-dev-shm-usage", "--headless");
                 // headed
-//                options.addArguments("no-sandbox", "disable-gpu", "disable-dev-shm-usage");
+                // options.addArguments("no-sandbox", "disable-gpu", "disable-dev-shm-usage");
                 driver.set(new ChromeDriver(options));
                 break;
             }

@@ -3,7 +3,6 @@ package base;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.FluentWait;
-import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -23,13 +22,7 @@ public class BaseTest {
     @Parameters({"browser"})
     @BeforeMethod(alwaysRun = true)
 
-    public void setUp(@Optional("chrome") String browser, ITestContext ctx) { // firefox chrome
-
-//        Logger strLogger = Logger.getLogger(String.class);
-
-        log = Logger.getLogger(String.class);
-        System.out.print("===========>>> " + log);
-
+    public void setUp(@Optional("chrome") String browser) { // firefox chrome
         BrowserDriverFactory factory = new BrowserDriverFactory(browser, log);
         driver = factory.createDriver();
 
@@ -41,14 +34,12 @@ public class BaseTest {
                 .pollingEvery(Duration.ofSeconds(1))
                 .ignoring(NoSuchElementException.class);
 
-//        log.info("Navigate to => " + url);
+        System.out.print("Navigate to => " + url);
     }
 
     @AfterMethod(alwaysRun = true)
     public void tearDown(ITestResult result) {
-        System.out.print("Close driver ===========>>> " + result.getMethod().getMethodName());
-        log.info("Close driver =========>>> ");
-        log.info("Method Name:" + result.getMethod().getMethodName());
+        System.out.print("Close driver => " + result.getMethod().getMethodName());
         driver.quit();
     }
 
