@@ -3,11 +3,13 @@ package base;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.FluentWait;
+import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
+import org.testng.log4testng.Logger;
 
 import java.time.Duration;
 
@@ -16,15 +18,18 @@ public class BaseTest {
     protected String url = "http://the-internet.herokuapp.com/";
     protected WebDriver driver;
     protected FluentWait<WebDriver> wait;
-
-//    protected Logger log;
+    protected Logger log;
 
     @Parameters({"browser"})
     @BeforeMethod(alwaysRun = true)
 
-    public void setUp(@Optional("chrome") String browser) { // firefox chrome
+    public void setUp(@Optional("chrome") String browser, ITestContext ctx) { // firefox chrome
 
-        BrowserDriverFactory factory = new BrowserDriverFactory(browser);
+//        Logger strLogger = Logger.getLogger(String.class);
+//        System.out.print("===========>>> " + strLogger);
+        log = Logger.getLogger(String.class);
+
+        BrowserDriverFactory factory = new BrowserDriverFactory(browser, log);
         driver = factory.createDriver();
 
         driver.navigate().to(url);
@@ -40,9 +45,8 @@ public class BaseTest {
 
     @AfterMethod(alwaysRun = true)
     public void tearDown(ITestResult result) {
-//        log.info("Method name => " + result.getMethod().getMethodName());
-        System.out.println("Close driver");
-        System.out.println("method name:" + result.getMethod().getMethodName());
+        log.info("Close driver =========>>> ");
+        log.info("Method Name:" + result.getMethod().getMethodName());
         driver.quit();
     }
 

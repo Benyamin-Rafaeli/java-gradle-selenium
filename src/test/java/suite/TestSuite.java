@@ -15,8 +15,9 @@ import static org.testng.Assert.*;
 
 public class TestSuite extends TestUtilities {
 
-    @Test
+    @Test // (threadPoolSize = 3, invocationCount = 10,  timeOut = 10000)
     public void aBTesting() {
+        log.info("Started " + getClass());
         clickByLinkTextAndValidateUrl("A/B Testing", "abtest");
 //        assertEquals(driver.findElement(By.cssSelector("h3")).getText(), "A/B Test Variation 1");
     }
@@ -220,4 +221,20 @@ public class TestSuite extends TestUtilities {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("checkbox")));
     }
 
+    @Test
+    public void dynamicControls_2() {
+        clickByLinkTextAndValidateUrl("Dynamic Controls", "dynamic_controls");
+
+        wait.until(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(By.cssSelector("#input-example > input"))));
+
+        WebElement EnableBtn = driver.findElement(By.xpath("//button[contains(.,'Enable')]"));
+        wait.until(ExpectedConditions.elementToBeClickable(EnableBtn));
+        EnableBtn.click();
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("loading")));
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@type='text']")));
+        driver.findElement(By.xpath("//input[@type='text']")).sendKeys("12345");
+        String value = driver.findElement(By.xpath("//input[@type='text']")).getAttribute("value");
+        assertEquals(value, "12345");
+    }
 }

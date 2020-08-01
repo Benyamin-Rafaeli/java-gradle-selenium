@@ -5,22 +5,29 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.testng.log4testng.Logger;
 
 public class BrowserDriverFactory {
     private final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     private final String browser;
+    private Logger log;
 
-    public BrowserDriverFactory(String browser) {
+    public BrowserDriverFactory(String browser, Logger log) {
         this.browser = browser.toLowerCase();
+        this.log = log;
     }
 
     public WebDriver createDriver() {
-        System.out.println("Create driver: " + browser);
+//        System.out.println("Create driver: " + browser);
+        log.info("Create driver: =============>> " + browser);
 
         switch (browser) {
             case "chrome": {
                 ChromeOptions options = new ChromeOptions();
-                options.addArguments("--headless", "no-sandbox", "disable-gpu", "disable-dev-shm-usage");
+                // --headless
+                options.addArguments("no-sandbox", "disable-gpu", "disable-dev-shm-usage", "--headless");
+                // headed
+//                options.addArguments("no-sandbox", "disable-gpu", "disable-dev-shm-usage");
                 driver.set(new ChromeDriver(options));
                 break;
             }
@@ -31,7 +38,7 @@ public class BrowserDriverFactory {
                 break;
             }
             default: {
-                System.out.println("Do not know how to start: " + browser + ", starting chrome.");
+                log.info("Do not know how to start: " + browser + ", starting chrome.");
                 driver.set(new ChromeDriver());
             }
         }

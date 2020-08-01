@@ -8,20 +8,15 @@ import static org.testng.Assert.assertTrue;
 public class TestUtilities extends BaseTest {
 
     public void clickByLinkTextAndValidateUrl(String clickOnText, String part) {
+        log.info("Before Click on => " + clickOnText);
         wait.until(ExpectedConditions.elementToBeClickable(By.linkText(clickOnText)));
         driver.findElement(By.linkText(clickOnText)).click();
-//        log.info("Click on => " + clickOnText);
+        log.info("After Click on => " + clickOnText);
 
+        log.info("Before Validate urlContains => " + part);
         wait.until(ExpectedConditions.urlContains(part));
         assertTrue(driver.getCurrentUrl().contains(part));
-//        log.info("Validate urlContains => " + part);
+        log.info("After Validate urlContains => " + part);
     }
-
-//    public void start(String url) {
-//        log.info("");
-//        System.out.println("Current URL is: " + url);
-//        driver.navigate().to(url);
-//        driver.manage().window().maximize();
-//    }
 
 }
