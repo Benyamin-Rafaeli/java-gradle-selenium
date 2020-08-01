@@ -15,39 +15,35 @@ import static org.testng.Assert.*;
 
 public class TestSuite extends TestUtilities {
 
-    private final By button = By.cssSelector("button");
     private final By username = By.id("username");
     private final By password = By.id("password");
     private final By radius = By.className("radius");
     private final By RemoveBtn = By.xpath("//button[contains(.,'Remove')]");
+    private final By AddElementBtn = By.xpath("//button[contains(.,'Add Element')]");
+    private final By DeleteBtn = By.xpath("//button[contains(.,'Delete')]");
     private final By Loading = By.id("loading");
-
-//    private final By RemoveBtn = By.xpath("//button[contains(.,'Remove')]");
-//    private final By RemoveBtn = By.xpath("//button[contains(.,'Remove')]");
-
+    private final By paragraph = By.cssSelector("p");
+    private final By h3Part = By.cssSelector("h3");
 
     @Test(priority = 1) // (threadPoolSize = 3, invocationCount = 10,  timeOut = 10000)
     public void aBTesting() {
-        System.out.println("Started my logging => " + getClass());
         clickByLinkTextAndValidateUrl("A/B Testing", "abtest");
-//        assertEquals(driver.findElement(By.cssSelector("h3")).getText(), "A/B Test Variation 1");
+        assertTrue(driver.findElements(paragraph).size() > 0);
+        assertTrue(driver.findElements(h3Part).size() > 0);
     }
 
     @Test
     public void addRemoveElements() {
         clickByLinkTextAndValidateUrl("Add/Remove Elements", "add_remove_elements");
 
-        for (int i = 0; i < 5; i++) {
-            driver.findElement(button).click();
-            assertEquals(driver.findElement(By.id("elements")).findElements(By.tagName("button")).size(), i + 1);
-        }
+        wait.until(ExpectedConditions.presenceOfElementLocated(AddElementBtn));
+        driver.findElement(AddElementBtn).click();
 
-        int size = driver.findElement(By.id("elements")).findElements(By.tagName("button")).size();
-        for (int i = 0; i < size; i++) {
-            List<WebElement> myArray = driver.findElement(By.id("elements")).findElements(By.tagName("button"));
-            myArray.get(myArray.size() - 1).click();
-            assertEquals(size - i, myArray.size());
-        }
+        wait.until(ExpectedConditions.presenceOfElementLocated(DeleteBtn));
+        assertTrue(driver.findElements(DeleteBtn).size() > 0);
+
+        driver.findElement(DeleteBtn).click();
+        assertEquals(driver.findElements(DeleteBtn).size(), 0);
     }
 
     @Test
