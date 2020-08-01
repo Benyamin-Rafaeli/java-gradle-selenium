@@ -15,6 +15,9 @@ import static org.testng.Assert.*;
 
 public class TestSuite extends TestUtilities {
 
+    private final By button = By.cssSelector("button");
+
+
     @Test(priority = 1) // (threadPoolSize = 3, invocationCount = 10,  timeOut = 10000)
     public void aBTesting() {
         System.out.println("Started my logging => " + getClass());
@@ -27,7 +30,8 @@ public class TestSuite extends TestUtilities {
         clickByLinkTextAndValidateUrl("Add/Remove Elements", "add_remove_elements");
 
         for (int i = 0; i < 5; i++) {
-            driver.findElement(By.cssSelector("button")).click();
+//            driver.findElement(By.cssSelector("button")).click();
+            driver.findElement(button).click();
             assertEquals(driver.findElement(By.id("elements")).findElements(By.tagName("button")).size(), i + 1);
         }
 
