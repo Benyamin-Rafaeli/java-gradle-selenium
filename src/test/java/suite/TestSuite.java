@@ -15,9 +15,11 @@ import static org.testng.Assert.*;
 
 public class TestSuite extends TestUtilities {
 
-    @Test // (threadPoolSize = 3, invocationCount = 10,  timeOut = 10000)
+    @Test(priority = 1) // (threadPoolSize = 3, invocationCount = 10,  timeOut = 10000)
     public void aBTesting() {
-        log.info("Started " + getClass());
+        log.info("===============>>>> Started my logging" + getClass());
+        log.debug("===============>>>> Started my debugging" + getClass());
+
         clickByLinkTextAndValidateUrl("A/B Testing", "abtest");
 //        assertEquals(driver.findElement(By.cssSelector("h3")).getText(), "A/B Test Variation 1");
     }
