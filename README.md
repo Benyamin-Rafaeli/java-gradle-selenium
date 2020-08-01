@@ -2,7 +2,7 @@
 
 ### Chrome Selenium Java Github Workflows Actions
 
-### on mac:
+### on the mac:
 
 ```brew install gradle```
 
@@ -11,10 +11,9 @@
 ```git clone https://github.com/Benyamin-Rafaeli/java-gradle-selenium.git```
 
 ### Implemented 
-```$xslt
-https://github.com/bonigarcia/webdrivermanager
+You don't need to care about sync web drivers anymore
+```https://github.com/bonigarcia/webdrivermanager```
 ```
-```$xslt
 WebDriverManager.chromedriver().setup();
 WebDriverManager.firefoxdriver().setup();
 WebDriverManager.edgedriver().setup();
@@ -23,3 +22,13 @@ WebDriverManager.phantomjs().setup();
 WebDriverManager.iedriver().setup();
 WebDriverManager.chromiumdriver().setup();
 ```
+
+### TODO
+Allure Reports: 
+```brew install allure```
+
+```https://github.com/allure-framework/allure2```
+
+Docker :
+````https://github.com/seleniumhq/docker-selenium/````
+

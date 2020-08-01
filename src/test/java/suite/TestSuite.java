@@ -16,6 +16,14 @@ import static org.testng.Assert.*;
 public class TestSuite extends TestUtilities {
 
     private final By button = By.cssSelector("button");
+    private final By username = By.id("username");
+    private final By password = By.id("password");
+    private final By radius = By.className("radius");
+    private final By RemoveBtn = By.xpath("//button[contains(.,'Remove')]");
+    private final By Loading = By.id("loading");
+
+//    private final By RemoveBtn = By.xpath("//button[contains(.,'Remove')]");
+//    private final By RemoveBtn = By.xpath("//button[contains(.,'Remove')]");
 
 
     @Test(priority = 1) // (threadPoolSize = 3, invocationCount = 10,  timeOut = 10000)
@@ -30,7 +38,6 @@ public class TestSuite extends TestUtilities {
         clickByLinkTextAndValidateUrl("Add/Remove Elements", "add_remove_elements");
 
         for (int i = 0; i < 5; i++) {
-//            driver.findElement(By.cssSelector("button")).click();
             driver.findElement(button).click();
             assertEquals(driver.findElement(By.id("elements")).findElements(By.tagName("button")).size(), i + 1);
         }
@@ -137,13 +144,9 @@ public class TestSuite extends TestUtilities {
     public void userLogin() {
         clickByLinkTextAndValidateUrl("Form Authentication", "login");
 
-        driver.findElement(By.id("username")).sendKeys("tomsmith");
-        driver.findElement(By.id("password")).sendKeys("SuperSecretPassword!");
-        driver.findElement(By.className("radius")).click();
-
-        System.out.println("Current URL is:" + driver.getCurrentUrl());
-
-        assertTrue(driver.getCurrentUrl().contains("secure"));
+        driver.findElement(username).sendKeys("tomsmith");
+        driver.findElement(password).sendKeys("SuperSecretPassword!");
+        driver.findElement(radius).click();
     }
 
     @Test
@@ -209,18 +212,18 @@ public class TestSuite extends TestUtilities {
     public void dynamicControls_1() {
         clickByLinkTextAndValidateUrl("Dynamic Controls", "dynamic_controls");
 
-        WebElement RemoveBtn = driver.findElement(By.xpath("//button[contains(.,'Remove')]"));
         wait.until(ExpectedConditions.elementToBeClickable(RemoveBtn));
-        RemoveBtn.click();
+        driver.findElement(RemoveBtn).click();
 
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("loading")));
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(Loading));
         wait.until(ExpectedConditions.textToBe(By.id("message"), "It's gone!"));
 
         WebElement AddBtn = driver.findElement(By.xpath("//button[contains(.,'Add')]"));
         wait.until(ExpectedConditions.elementToBeClickable(AddBtn));
         AddBtn.click();
 
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("loading")));
+        wait.until(ExpectedConditions.presenceOfElementLocated(Loading));
         wait.until(ExpectedConditions.textToBe(By.id("message"), "It's back!"));
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("checkbox")));
     }
@@ -235,7 +238,7 @@ public class TestSuite extends TestUtilities {
         wait.until(ExpectedConditions.elementToBeClickable(EnableBtn));
         EnableBtn.click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("loading")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(Loading));
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@type='text']")));
         driver.findElement(By.xpath("//input[@type='text']")).sendKeys("12345");
         String value = driver.findElement(By.xpath("//input[@type='text']")).getAttribute("value");
