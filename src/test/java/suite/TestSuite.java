@@ -18,8 +18,6 @@ public class TestSuite extends TestUtilities {
     private final By username = By.id("username");
     private final By password = By.id("password");
     private final By radius = By.className("radius");
-    private final By RemoveBtn = By.xpath("//button[contains(.,'Remove')]");
-    private final By AddElementBtn = By.xpath("//button[contains(.,'Add Element')]");
     private final By DeleteBtn = By.xpath("//button[contains(.,'Delete')]");
     private final By Loading = By.id("loading");
     private final By paragraph = By.cssSelector("p");
@@ -35,9 +33,7 @@ public class TestSuite extends TestUtilities {
     @Test
     public void addRemoveElements() {
         clickByLinkTextAndValidateUrl("Add/Remove Elements", "add_remove_elements");
-
-        wait.until(ExpectedConditions.presenceOfElementLocated(AddElementBtn));
-        driver.findElement(AddElementBtn).click();
+        clickByXpathContainsText("Add Element");
 
         wait.until(ExpectedConditions.presenceOfElementLocated(DeleteBtn));
         assertTrue(driver.findElements(DeleteBtn).size() > 0);
@@ -207,17 +203,12 @@ public class TestSuite extends TestUtilities {
     @Test
     public void dynamicControls_1() {
         clickByLinkTextAndValidateUrl("Dynamic Controls", "dynamic_controls");
-
-        wait.until(ExpectedConditions.elementToBeClickable(RemoveBtn));
-        driver.findElement(RemoveBtn).click();
-
+        clickByXpathContainsText("Remove");
 
         wait.until(ExpectedConditions.presenceOfElementLocated(Loading));
         wait.until(ExpectedConditions.textToBe(By.id("message"), "It's gone!"));
 
-        WebElement AddBtn = driver.findElement(By.xpath("//button[contains(.,'Add')]"));
-        wait.until(ExpectedConditions.elementToBeClickable(AddBtn));
-        AddBtn.click();
+        clickByXpathContainsText("Add");
 
         wait.until(ExpectedConditions.presenceOfElementLocated(Loading));
         wait.until(ExpectedConditions.textToBe(By.id("message"), "It's back!"));
@@ -230,9 +221,11 @@ public class TestSuite extends TestUtilities {
 
         wait.until(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(By.cssSelector("#input-example > input"))));
 
-        WebElement EnableBtn = driver.findElement(By.xpath("//button[contains(.,'Enable')]"));
-        wait.until(ExpectedConditions.elementToBeClickable(EnableBtn));
-        EnableBtn.click();
+        clickByXpathContainsText("Enable");
+
+//        WebElement EnableBtn = driver.findElement(By.xpath("//button[contains(.,'Enable')]"));
+//        wait.until(ExpectedConditions.elementToBeClickable(EnableBtn));
+//        EnableBtn.click();
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(Loading));
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@type='text']")));

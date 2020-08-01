@@ -33,13 +33,11 @@ public class BaseTest {
                 .withTimeout(Duration.ofSeconds(10))
                 .pollingEvery(Duration.ofSeconds(1))
                 .ignoring(NoSuchElementException.class);
-
-        System.out.print("Navigate to => " + url);
     }
 
     @AfterMethod(alwaysRun = true)
     public void tearDown(ITestResult result) {
-        System.out.print("Close driver => " + result.getMethod().getMethodName());
+        System.out.print("\nclose driver => " + result.getMethod().getMethodName() + "\n");
         driver.quit();
     }
 

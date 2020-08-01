@@ -18,7 +18,7 @@ public class BrowserDriverFactory {
     }
 
     public WebDriver createDriver() {
-        System.out.println("Create driver => " + browser);
+        System.out.println("\ncreate driver => " + browser + "\n");
 
         switch (browser) {
             case "chrome": {
