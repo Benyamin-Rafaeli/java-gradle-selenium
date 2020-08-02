@@ -22,7 +22,7 @@ public class BaseTest {
     @Parameters({"browser"})
     @BeforeMethod(alwaysRun = true)
 
-    public void setUp(@Optional("firefox") String browser) { // firefox chrome
+    public void setUp(@Optional("opera") String browser) { // firefox chrome opera
         BrowserDriverFactory factory = new BrowserDriverFactory(browser, log);
         driver = factory.createDriver();
 

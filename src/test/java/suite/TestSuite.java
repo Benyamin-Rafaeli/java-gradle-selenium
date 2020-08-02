@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.testng.Assert.*;
 
-public class TestSuite_ extends TestUtilities {
+public class TestSuite extends TestUtilities {
 
     private final By username = By.id("username");
     private final By password = By.id("password");
