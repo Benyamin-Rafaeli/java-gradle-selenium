@@ -23,10 +23,8 @@ public class BrowserDriverFactory {
         switch (browser) {
             case "chrome" -> {
                 ChromeOptions options = new ChromeOptions();
-                // --headless
-                options.addArguments("no-sandbox", "disable-gpu", "disable-dev-shm-usage", "--headless");
-                // headed
-                // options.addArguments("no-sandbox", "disable-gpu", "disable-dev-shm-usage");
+                options.addArguments("no-sandbox", "disable-gpu", "disable-dev-shm-usage", "--headless", "--enable-preview"); // --headless
+//                options.addArguments("no-sandbox", "disable-gpu", "disable-dev-shm-usage", "--enable-preview"); // headed
                 driver.set(new ChromeDriver(options));
             }
             case "firefox" -> {

@@ -64,6 +64,7 @@ public class TestSuite extends TestUtilities {
         for (WebElement image : driver.findElements(By.cssSelector("img"))) {
             if (image.getAttribute("naturalWidth").equals("0")) {
                 assertNotEquals(image.getAttribute("naturalWidth"), 0);
+                System.out.println("image name => " + image.getAttribute("src") + " <= is broken");
             }
         }
     }
