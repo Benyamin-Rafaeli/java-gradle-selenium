@@ -1,5 +1,12 @@
 plugins { id 'java' }
 repositories { mavenCentral() }
+
+/*tasks.withType(JavaCompile).each {
+      it.options.compilerArgs.add('--enable-preview')
+  } */
+
+test { jvmArgs(['--enable-preview']) }
+
 dependencies {
     testImplementation group: 'org.testng', name: 'testng', version: '7.1.0'
     testImplementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '4.1.0'
