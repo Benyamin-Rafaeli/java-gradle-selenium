@@ -38,7 +38,7 @@ public class BaseTest {
     @AfterMethod(alwaysRun = true)
     public void tearDown(ITestResult result) {
         System.out.print("finish test => " + result.getMethod().getMethodName());
-        System.out.print("driver => close");
+        System.out.print("\ndriver => close");
         driver.quit();
     }
 

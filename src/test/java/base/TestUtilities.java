@@ -10,11 +10,6 @@ public class TestUtilities extends BaseTest {
     public void clickByLinkTextAndValidateUrl(String clickOnText, String part) {
         clickByLinkText(clickOnText);
 
-//        System.out.println("wait until elementToBeClickable => " + clickOnText);
-//        wait.until(ExpectedConditions.elementToBeClickable(By.linkText(clickOnText)));
-//        System.out.println("click on element wit text => " + clickOnText);
-//        driver.findElement(By.linkText(clickOnText)).click();
-
         System.out.println("wait until urlContains => " + part);
         wait.until(ExpectedConditions.urlContains(part));
         System.out.println("validate urlContains => " + driver.getCurrentUrl());
@@ -41,7 +36,6 @@ public class TestUtilities extends BaseTest {
 
     private void clickExecute(By buttonToClick) {
         System.out.println("wait until elementToBeClickable => " + buttonToClick);
-//        wait.until(ExpectedConditions.presenceOfElementLocated(buttonToClick));
         wait.until(ExpectedConditions.elementToBeClickable(buttonToClick));
         System.out.println("click on element => " + buttonToClick);
         driver.findElement(buttonToClick).click();
