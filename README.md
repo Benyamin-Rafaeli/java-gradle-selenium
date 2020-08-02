@@ -1,6 +1,6 @@
 ![Java CI with Gradle](https://github.com/Benyamin-Rafaeli/java-gradle-selenium/workflows/Java%20CI%20with%20Gradle/badge.svg?branch=master)
 
-### Chrome Selenium Java Github Workflows Actions
+### Dockerized CI (Github Workflows) Gradle Selenium Java
 
 ### on the mac:
 

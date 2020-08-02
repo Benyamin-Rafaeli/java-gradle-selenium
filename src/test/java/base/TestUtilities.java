@@ -8,10 +8,12 @@ import static org.testng.Assert.assertTrue;
 public class TestUtilities extends BaseTest {
 
     public void clickByLinkTextAndValidateUrl(String clickOnText, String part) {
-        System.out.println("wait until elementToBeClickable => " + clickOnText);
-        wait.until(ExpectedConditions.elementToBeClickable(By.linkText(clickOnText)));
-        System.out.println("click on element wit text => " + clickOnText);
-        driver.findElement(By.linkText(clickOnText)).click();
+        clickByLinkText(clickOnText);
+
+//        System.out.println("wait until elementToBeClickable => " + clickOnText);
+//        wait.until(ExpectedConditions.elementToBeClickable(By.linkText(clickOnText)));
+//        System.out.println("click on element wit text => " + clickOnText);
+//        driver.findElement(By.linkText(clickOnText)).click();
 
         System.out.println("wait until urlContains => " + part);
         wait.until(ExpectedConditions.urlContains(part));
@@ -21,18 +23,29 @@ public class TestUtilities extends BaseTest {
 
     public void clickByXpathContainsText(String text) {
         final By buttonToClick = By.xpath("//button[contains(.,'" + text + "')]");
-        System.out.println("wait until presenceOfElementLocated => " + buttonToClick);
-        wait.until(ExpectedConditions.presenceOfElementLocated(buttonToClick));
+
+        clickExecute(buttonToClick);
+    }
+
+    public void clickByLinkText(String text) {
+        final By buttonToClick = By.linkText(text);
+
+        clickExecute(buttonToClick);
+    }
+
+    public void clickById(String text) {
+        final By buttonToClick = By.id(text);
+
+        clickExecute(buttonToClick);
+    }
+
+    private void clickExecute(By buttonToClick) {
+        System.out.println("wait until elementToBeClickable => " + buttonToClick);
+//        wait.until(ExpectedConditions.presenceOfElementLocated(buttonToClick));
+        wait.until(ExpectedConditions.elementToBeClickable(buttonToClick));
         System.out.println("click on element => " + buttonToClick);
         driver.findElement(buttonToClick).click();
     }
 
-    public void linkText(String text) {
-        final By buttonToClick = By.xpath("//button[contains(.,'" + text + "')]");
-        System.out.println("wait until presenceOfElementLocated => " + buttonToClick);
-        wait.until(ExpectedConditions.presenceOfElementLocated(buttonToClick));
-        System.out.println("click on element => " + buttonToClick);
-        driver.findElement(buttonToClick).click();
-    }
 
 }

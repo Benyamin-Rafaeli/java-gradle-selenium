@@ -22,7 +22,7 @@ public class BaseTest {
     @Parameters({"browser"})
     @BeforeMethod(alwaysRun = true)
 
-    public void setUp(@Optional("chrome") String browser) { // firefox chrome
+    public void setUp(@Optional("firefox") String browser) { // firefox chrome
         BrowserDriverFactory factory = new BrowserDriverFactory(browser, log);
         driver = factory.createDriver();
 
@@ -37,7 +37,8 @@ public class BaseTest {
 
     @AfterMethod(alwaysRun = true)
     public void tearDown(ITestResult result) {
-        System.out.print("\nclose driver => " + result.getMethod().getMethodName() + "\n");
+        System.out.print("finish test => " + result.getMethod().getMethodName());
+        System.out.print("driver => close");
         driver.quit();
     }
 

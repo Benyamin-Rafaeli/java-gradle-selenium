@@ -150,7 +150,7 @@ public class TestSuite extends TestUtilities {
         elements = driver.findElements(By.linkText("About"));
         assertTrue(elements.size() > 0);
 
-        driver.findElement(By.linkText("About")).click();
+        clickByLinkText("About");
 
         elements = driver.findElements(By.linkText("About"));
         assertEquals(elements.size(), 0);
@@ -191,8 +191,9 @@ public class TestSuite extends TestUtilities {
     public void dynamicContent() {
         clickByLinkTextAndValidateUrl("Dynamic Content", "dynamic_content");
 
-        wait.until(ExpectedConditions.elementToBeClickable(By.linkText("click here")));
-        driver.findElement(By.linkText("click here")).click();
+        clickByLinkText("click here");
+//        wait.until(ExpectedConditions.elementToBeClickable(By.linkText("click here")));
+//        driver.findElement(By.linkText("click here")).click();
 
         String myXpath = "(//div[@id='content'])";
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(myXpath)));
