@@ -13,17 +13,20 @@ import java.util.List;
 
 import static org.testng.Assert.*;
 
+@SuppressWarnings("AssertBetweenInconvertibleTypes")
 public class TestSuite extends TestUtilities {
 
     private final By username = By.id("username");
     private final By password = By.id("password");
     private final By radius = By.className("radius");
     private final By DeleteBtn = By.xpath("//button[contains(.,'Delete')]");
+    private final By StartBtn = By.xpath("//button[contains(.,'Start')]");
     private final By Loading = By.id("loading");
+    private final By Message = By.id("message");
     private final By paragraph = By.cssSelector("p");
     private final By h3Part = By.cssSelector("h3");
 
-    @Test(priority = 1) // (threadPoolSize = 3, invocationCount = 10,  timeOut = 10000)
+    @Test(priority = 1)
     public void aBTesting() {
         clickByLinkTextAndValidateUrl("A/B Testing", "abtest");
         assertTrue(driver.findElements(paragraph).size() > 0);
@@ -72,50 +75,34 @@ public class TestSuite extends TestUtilities {
     @Test
     public void challengingDOM() {
         clickByLinkTextAndValidateUrl("Challenging DOM", "challenging_dom");
+        String myStr = "Consequuntur1";
 
-        WebElement tbody = driver.findElement(By.tagName("tbody"));
-
-        for (WebElement td : tbody.findElements(By.tagName("td"))) {
-            if (td.getText().equals("Consequuntur1")) {
-                System.out.println("Found: " + td.getText());
+        for (WebElement td : driver.findElements(By.tagName("td"))) {
+            if (td.getText().equals(myStr)) {
+                System.out.println("search " + myStr + " found => " + td.getText());
                 return;
             }
         }
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td[contains(.,'Consequuntur7')]")));
+//        assertFalse(driver.findElements(By.xpath("//td[contains(.,'Consequuntur7')]")).size() > 0);
     }
 
     @Test
-    public void checkboxes1() {
+    public void checkBoxes() {
         clickByLinkTextAndValidateUrl("Checkboxes", "checkboxes");
+        // validate that checkbox1 not checked and checkbox2 checked
+        assertFalse(driver.findElement(By.xpath("//form[@id='checkboxes']/input")).isSelected());
+        assertTrue(driver.findElement(By.xpath("//form[@id='checkboxes']/input[2]")).isSelected());
 
-        List<WebElement> checkboxes = driver.findElements(By.cssSelector("input[type=\"checkbox\"]"));
+        WebElement element;
 
-        System.out.println("With .attribute('checked')");
-        for (WebElement checkbox : checkboxes) {
-            System.out.println(checkbox.getAttribute("checked"));
-        }
+        element = driver.findElement(By.xpath("//form[@id='checkboxes']/input"));
+        if (!element.isSelected()) element.click();
 
-        System.out.println("\nWith .selected?");
-        for (WebElement checkbox : checkboxes) {
-            System.out.println(checkbox.isSelected());
-        }
+        element = driver.findElement(By.xpath("//form[@id='checkboxes']/input[2]"));
+        if (element.isSelected()) element.click();
     }
 
-    @Test
-    public void checkboxes2() {
-        clickByLinkTextAndValidateUrl("Checkboxes", "checkboxes");
-
-        WebElement checkbox = driver.findElement(By.cssSelector("form input:nth-of-type(2)"));
-        assertTrue(Boolean.parseBoolean(checkbox.getAttribute("checked")));
-        assertNotNull(checkbox.getAttribute("checked"));
-    }
-
-    @Test
-    public void checkboxes3() {
-        clickByLinkTextAndValidateUrl("Checkboxes", "checkboxes");
-
-        WebElement checkbox = driver.findElement(By.cssSelector("form input:nth-of-type(2)"));
-        assertTrue(checkbox.isSelected());
-    }
 
     @Test
     public void rightClickContextMenu() {
@@ -133,7 +120,7 @@ public class TestSuite extends TestUtilities {
         assertEquals(alert.getText(), "You selected a context menu");
     }
 
-    @Test(enabled = false)
+    @Test()
     public void userLogin() {
         clickByLinkTextAndValidateUrl("Form Authentication", "login");
 
@@ -191,15 +178,10 @@ public class TestSuite extends TestUtilities {
     @Test
     public void dynamicContent() {
         clickByLinkTextAndValidateUrl("Dynamic Content", "dynamic_content");
-
         clickByLinkText("click here");
-//        wait.until(ExpectedConditions.elementToBeClickable(By.linkText("click here")));
-//        driver.findElement(By.linkText("click here")).click();
 
-        String myXpath = "(//div[@id='content'])";
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(myXpath)));
-        List<WebElement> elements = driver.findElements(By.xpath(myXpath));
-        assertTrue(elements.size() > 0);
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("(//div[@id='content'])")));
+        assertTrue(driver.findElements(By.xpath("(//div[@id='content'])")).size() > 0);
     }
 
     @Test
@@ -208,12 +190,12 @@ public class TestSuite extends TestUtilities {
         clickByXpathContainsText("Remove");
 
         wait.until(ExpectedConditions.presenceOfElementLocated(Loading));
-        wait.until(ExpectedConditions.textToBe(By.id("message"), "It's gone!"));
+        wait.until(ExpectedConditions.textToBe(Message, "It's gone!"));
 
         clickByXpathContainsText("Add");
 
         wait.until(ExpectedConditions.presenceOfElementLocated(Loading));
-        wait.until(ExpectedConditions.textToBe(By.id("message"), "It's back!"));
+        wait.until(ExpectedConditions.textToBe(Message, "It's back!"));
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("checkbox")));
     }
 
@@ -225,14 +207,52 @@ public class TestSuite extends TestUtilities {
 
         clickByXpathContainsText("Enable");
 
-//        WebElement EnableBtn = driver.findElement(By.xpath("//button[contains(.,'Enable')]"));
-//        wait.until(ExpectedConditions.elementToBeClickable(EnableBtn));
-//        EnableBtn.click();
-
         wait.until(ExpectedConditions.visibilityOfElementLocated(Loading));
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@type='text']")));
         driver.findElement(By.xpath("//input[@type='text']")).sendKeys("12345");
         String value = driver.findElement(By.xpath("//input[@type='text']")).getAttribute("value");
         assertEquals(value, "12345");
     }
+
+    @Test
+    public void dynamicLoading() {
+        clickByLinkTextAndValidateUrl("Dynamic Loading", "dynamic_loading");
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText("Example 1: Element on page that is hidden")));
+        driver.findElement(By.linkText("Example 1: Element on page that is hidden")).click();
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(StartBtn));
+        driver.findElement(StartBtn).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(Loading));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h4[contains(.,'Hello World!')]")));
+
+        driver.navigate().back();
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText("Example 2: Element rendered after the fact")));
+        driver.findElement(By.linkText("Example 2: Element rendered after the fact")).click();
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(StartBtn));
+        driver.findElement(StartBtn).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(Loading));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h4[contains(.,'Hello World!')]")));
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
