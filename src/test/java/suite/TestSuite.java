@@ -25,6 +25,9 @@ public class TestSuite extends TestUtilities {
     private final By Message = By.id("message");
     private final By paragraph = By.cssSelector("p");
     private final By h3Part = By.cssSelector("h3");
+    private final By modalPopUp = By.cssSelector(".modal-title");
+    private final By restartBtn = By.id("restart-ad");
+
 
     @Test(priority = 1)
     public void aBTesting() {
@@ -235,6 +238,18 @@ public class TestSuite extends TestUtilities {
         driver.findElement(StartBtn).click();
         wait.until(ExpectedConditions.presenceOfElementLocated(Loading));
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h4[contains(.,'Hello World!')]")));
+    }
+
+    @Test
+    public void entryAd() {
+        clickByLinkTextAndValidateUrl("Entry Ad", "entry_ad");
+        wait.until(ExpectedConditions.presenceOfElementLocated(modalPopUp));
+
+        do {
+            driver.findElement(restartBtn).click();
+            wait.until(ExpectedConditions.presenceOfElementLocated(modalPopUp));
+        } while (!wait.until(ExpectedConditions.textToBe(modalPopUp, "THIS IS A MODAL WINDOW")));
+
     }
 
 }
